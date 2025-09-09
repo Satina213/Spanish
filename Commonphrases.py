@@ -1,0 +1,15 @@
+common_phrases = {
+    "hello": "hola",
+    "how are you": "cómo estás",
+    "goodbye": "adiós",
+    "good": "bien",
+    "maybe": "tal vez",
+    "half": "medio",
+    "good morning": "buenos días",
+    "good afternoon": "buenas tardes",
+    "good evening": "buenas noches",
+    "I'm sorry": "lo siento",
+    "please": "por favor",
+    "thank you": "gracias",
+    "you're welcome": "de nada",
+}

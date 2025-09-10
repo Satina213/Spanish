@@ -129,10 +129,11 @@ def nameNumber(number: int) -> str:
         return (nameSubBillion(number))
     
 def main():
-    if len(sys.argv) == 2:
-        if sys.argv[1] is int and sys.argv[1] > 0 and sys.argv[1] < BILLION:
-            print(nameNumber(sys.argv[1]))
-    return 0
+    # if len(sys.argv) == 2:
+    #     if sys.argv[1] is int and sys.argv[1] > 0 and sys.argv[1] < BILLION:
+    #         print(nameNumber(sys.argv[1]))
+    # return 0
+    print(nameNumber(525123))
 
 if __name__ == "__main__":
     main()

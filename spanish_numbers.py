@@ -68,12 +68,12 @@ def nameSubHundred(number: int) -> str:
 def nameSubThousand(number: int) -> str:
     if number == 0:
         return ""
+    if number == 100:
+        return "cien"
     if number in base:
         return base[number]
     if number < 100:
         return nameSubHundred(number)
-    if number == 100:
-        return "cien"
     helper = number // 100
     hundreds = base[100 * helper]
     remainder = number - helper * 100
@@ -130,9 +130,12 @@ def nameNumber(number: int) -> str:
     
 def main():
     if len(sys.argv) == 2:
-        if sys.argv[1] is int and sys.argv[1] > 0 and sys.argv[1] < BILLION:
-            print(nameNumber(sys.argv[1]))
-    return 0
-
+        try:
+            number = int(sys.argv[1])
+        except ValueError:
+            print("must enter a digit")
+        print(nameNumber(number))
+    if len(sys.argv) == 1:
+        print(nameNumber(1100))
 if __name__ == "__main__":
     main()

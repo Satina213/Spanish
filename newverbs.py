@@ -37,8 +37,65 @@ class Verb:
             raise ValueError("translation must be a str")
         self._translation = translation
 
+
+    @property
+    def tense(self):
+        return  {
+            "present": getattr(self, "present_tense_endings", {}),
+            "preterite": getattr(self, "preterite_tense_endings", {})
+        }
+    def conjugate(self, tense, form):
+        root = self.word[:-2]
+        ending = self.tense[tense][form]
+        return root + ending
+    
     
 
-hablar = Verb(True, "hablar", "to speak")
 
-print(hablar)
+class ArVerb(Verb):
+    present_tense_endings = {
+        "yo": "o",
+        "tu": "as",
+        "usted": "a",
+        "nosotros": "amos",
+        "ustedes": "an"
+    }
+    preterite_tense_endings = {
+    "yo": "é",
+    "tu": "aste",
+    "usted": "ó",
+    "nosotros": "amos",
+    "ustedes": "aron",
+    }
+
+    def __init__(self, regular, word, translation):
+        super().__init__(regular, word, translation)
+
+class ErVerb(Verb):
+    present_tense_endings = {
+        "yo": "o",
+        "tu": "es",
+        "usted": "e",
+        "nosotros": "emos",
+        "ustedes": "en"
+    }
+    preterite_tense_endings = {
+        "yo": "ó",
+        "tu": "iste",
+        "usted": "ió",
+        "nosotros": "imos",
+        "ustedes": "ieron"
+    }
+    def __init__(self, regular, word, translation):
+        super().__init__(regular, word, translation)
+
+hablar = ArVerb(True, "hablar", "to speak")
+
+
+if __name__ == "__main__":
+    print(hablar.conjugate("present", "yo"))
+    print(hablar.conjugate("present", "tu"))
+    print(hablar.conjugate("present", "usted"))
+    print(hablar.conjugate("preterite", "yo"))
+    print(hablar.conjugate("preterite", "tu"))
+    print(hablar.conjugate("preterite", "usted"))

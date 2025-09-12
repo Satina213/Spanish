@@ -1,3 +1,7 @@
+#TODO:
+#   add gender to numbers
+#   make singular use of thousand "mil" exclude the uno
+
 import sys
 MILLION = 1000000
 BILLION = 1000000000

@@ -1,5 +1,5 @@
 class Verb:
-    def __init__(self, regular, word, translation):
+    def __init__(self, word, translation, regular):
         self.regular = regular
         self.word = word
         self.translation = translation
@@ -45,6 +45,9 @@ class Verb:
             "preterite": getattr(self, "preterite_tense_endings", {})
         }
     def conjugate(self, tense, form):
+        if self.regular == False:
+            #find verb in lookup table
+            pass
         root = self.word[:-2]
         verb_type = self.word[-2:]
         if tense == "present":
@@ -102,8 +105,8 @@ class ArVerb(Verb):
     "ustedes": "aron",
     }
 
-    def __init__(self, regular, word, translation):
-        super().__init__(regular, word, translation)
+    def __init__(self, word, translation, regular):
+        super().__init__(word, translation, regular)
 
 class ErVerb(Verb):
     present_tense_endings = {
@@ -123,10 +126,28 @@ class ErVerb(Verb):
     def __init__(self, regular, word, translation):
         super().__init__(regular, word, translation)
 
-creer = ErVerb(True, "creer", "to believe")
+class IrVerb(Verb):
+    present_tense_endings = {
+        "yo": "o",
+        "tu": "es",
+        "usted": "e",
+        "nosotros": "imos",
+        "ustedes": "en"
+    }
+    preterite_tense_endings = {
+        "yo": "í",
+        "tu": "iste",
+        "usted": "ió",
+        "nosotros": "imos",
+        "ustedes": "ieron"
+    }
+    def __init__(self, regular, word, translation):
+        super().__init__(regular, word, translation)
+
 
 
 if __name__ == "__main__":
+    creer = ErVerb("creer", "to believe", True)
     print(creer.conjugate("preterite", "yo"))
     print(creer.conjugate("preterite", "tu"))
     print(creer.conjugate("preterite", "usted"))

@@ -1,15 +1,26 @@
 import csv
-import newverbs
+import verbs
 
-verb_list = []
+ar_verb_list = []
+er_verb_list = []
+ir_verb_list = []
 def str_to_bool(s):
     return str(s).strip().lower() == "true"
 
 
-with open("spanishwords.csv") as file:
+with open("regularverbs.csv") as file:
     reader = csv.DictReader(file, skipinitialspace=True)
     for row in reader:
-        verb_list.append(newverbs.Verb(str_to_bool(row["regular_word"]), row["spanish_word"], row["translation"]))
+        if row["verbtype"] == "ar":
+            ar_verb_list.append(verbs.ArVerb(row["word"], row["translation"], True))
+        elif row["verbtype"] == "er":
+            er_verb_list.append(verbs.ErVerb(row["word"], row["translation"], True))
+        else:
+            ir_verb_list.append(verbs.IrVerb(row["word"], row["translation"], True))
 
-for item in verb_list:
+for item in ar_verb_list:
+    print(item)
+for item in er_verb_list:
+    print(item)
+for item in ir_verb_list:
     print(item)

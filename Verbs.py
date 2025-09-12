@@ -13,7 +13,7 @@ er_verbs = {
     "to drink": "beber",
     "to learn": "aprender",
     "to run": "correr",
-    "to read": "to read",
+    "to read": "leer",
     "to sell": "vender",
     "to comprehend": "comprender"
     
@@ -106,13 +106,13 @@ def conjugate_present(pov, verb):
 def conjugate_preterite(pov, verb):
     ending=get_word_ending(verb)
     root = get_word_root(verb)
-    if pov == "yo":
+    if pov == "yo" and verb[-2:] == "ar":
         if root[-1] == "c":
-            root = root[:-1] + "qu"
+            root = root[-1] + "qu"
         elif root[-1] == "g":
-            root = root[:-1] + "gu"
+            root = root[-1] + "gu"
         elif root[-1] == "z":
-            root = root[:-1] + "c"
+            root = root[-1] + "c"
     conjugated_verb = root + endings[ending]["preterite"][pov]
     print(conjugated_verb)
     return conjugated_verb

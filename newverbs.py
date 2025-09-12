@@ -46,6 +46,40 @@ class Verb:
         }
     def conjugate(self, tense, form):
         root = self.word[:-2]
+        verb_type = self.word[-2:]
+        if tense == "present":
+            if self.word[-3:] in ["ger", "gir"] and form == "yo":
+                root = root[:-1] + "j"
+            if self.word[-4:] == "guir" and form == "yo":
+                root = root[:-1]
+            if self.word[-3:] in ["cer", "cir"] and self.word[-4] in ["r", "n"] and form == "yo":
+                root = root[:-1] + "z"
+            if self.word[-3:] in ["cer", "cir"] and self.word[-4] in ["a", "e", "i", "o", "u"] and form == "yo":
+                root = root[:-1] + "zc"
+            if self.word[-3:] == "uir" and not self.word[-4] == "g" and form in ["yo", "tu", "usted", "ustedes"]:
+                root = root + "y"
+            # TODO
+            # Some verbs that end in -iar and nearly all verbs 
+            # that end in -uar take a written accent to the i or the u 
+            # in all but the nosotros and vosotros forms.
+
+        if tense == "preterite":
+            if form == "yo" and verb_type == "ar":
+                if root[-1] == "c":
+                    root = root[:-1] + "qu"
+                elif root[-1] == "g":
+                    root = root[:-1] + "gu"
+                elif root[-1] == "z":
+                    root = root[:-1] + "c"
+            if self.word[-3:] in ["aer", "eer", "oír", "oer"]:
+                if form == "usted":
+                    return root + "yó"
+                if form == "ustedes":
+                    return root + "yeron"
+                if form in ["tu", "nosotros"] and self.word[-3:] == "uir":
+                    return root + self.tense[tense][form]
+                ending = self.tense[tense][form].replace("i", "í")
+                return root + ending
         ending = self.tense[tense][form]
         return root + ending
     
@@ -80,7 +114,7 @@ class ErVerb(Verb):
         "ustedes": "en"
     }
     preterite_tense_endings = {
-        "yo": "ó",
+        "yo": "í",
         "tu": "iste",
         "usted": "ió",
         "nosotros": "imos",
@@ -89,13 +123,14 @@ class ErVerb(Verb):
     def __init__(self, regular, word, translation):
         super().__init__(regular, word, translation)
 
-hablar = ArVerb(True, "hablar", "to speak")
+creer = ErVerb(True, "creer", "to believe")
 
 
 if __name__ == "__main__":
-    print(hablar.conjugate("present", "yo"))
-    print(hablar.conjugate("present", "tu"))
-    print(hablar.conjugate("present", "usted"))
-    print(hablar.conjugate("preterite", "yo"))
-    print(hablar.conjugate("preterite", "tu"))
-    print(hablar.conjugate("preterite", "usted"))
+    print(creer.conjugate("preterite", "yo"))
+    print(creer.conjugate("preterite", "tu"))
+    print(creer.conjugate("preterite", "usted"))
+    print(creer.conjugate("preterite", "nosotros"))
+    print(creer.conjugate("preterite", "ustedes"))
+    
+    

@@ -1,6 +1,7 @@
 import random
+import sqlite3
 from WordLists import body_parts, colors, food, kitchen_items, common_phrases, people
-import Verbs
+
 word_categories = {
     "body parts": body_parts,
     "colors": colors,
@@ -75,12 +76,14 @@ def get_category():
             print("Please choose a valid category")
 
 def main():
-    # print("Hello, let's practice spanish together")
-    # print("Every question you get right on the first try is 10 pts")
-    # print("What category do you want to learn today?")
-    # get_question(get_category())
-    # return 0
-    build_sentence(*get_subject(), *get_verb())
+    conn = sqlite3.connect("spanishverbs.db")
+    c = conn.cursor()
+    c.execute("""SELECT form_1s FROM verbs
+              WHERE tense_english = 'Present'
+              AND infinitive = 'abandonar';""")
+    print(c.fetchall())
+    pass
+
 
 if __name__ == "__main__":
     main()

@@ -67,6 +67,7 @@ class Verb:
             # in all but the nosotros and vosotros forms.
 
         if tense == "preterite":
+            
             if form == "yo" and verb_type == "ar":
                 if root[-1] == "c":
                     root = root[:-1] + "qu"
@@ -146,12 +147,5 @@ class IrVerb(Verb):
 
 
 
-if __name__ == "__main__":
-    creer = ErVerb("creer", "to believe", True)
-    print(creer.conjugate("preterite", "yo"))
-    print(creer.conjugate("preterite", "tu"))
-    print(creer.conjugate("preterite", "usted"))
-    print(creer.conjugate("preterite", "nosotros"))
-    print(creer.conjugate("preterite", "ustedes"))
-    
+
     

@@ -7,6 +7,17 @@ class Verb:
     def __str__(self):
         return f"{self.word} means {self.translation}"
 
+    @classmethod
+    def create(cls, word, translation, regular=True):
+        word = word.lower().strip()
+        if word.endswith("ar"):
+            return ArVerb(word, translation, regular)
+        elif word.endswith("er"):
+            return ErVerb(word, translation, regular)
+        elif word.endswith("ir"):
+            return IrVerb(word, translation, regular)
+        else:
+            raise ValueError(f"Unkown verb ending for {word}")
     @property
     def regular(self):
         return self._regular
@@ -124,8 +135,8 @@ class ErVerb(Verb):
         "nosotros": "imos",
         "ustedes": "ieron"
     }
-    def __init__(self, regular, word, translation):
-        super().__init__(regular, word, translation)
+    def __init__(self, word, translation, regular,):
+        super().__init__(word, translation, regular)
 
 class IrVerb(Verb):
     present_tense_endings = {
@@ -142,8 +153,8 @@ class IrVerb(Verb):
         "nosotros": "imos",
         "ustedes": "ieron"
     }
-    def __init__(self, regular, word, translation):
-        super().__init__(regular, word, translation)
+    def __init__(self, word, translation, regular):
+        super().__init__(word, translation, regular)
 
 
 

@@ -74,18 +74,29 @@ def get_category():
             return word_categories[choice]
         else:
             print("Please choose a valid category")
-
 def main():
     from verbs import Verb
     conn = sqlite3.connect("spanishverbs.db")
     c = conn.cursor()
-    c.execute(f"""SELECT form_1s FROM verbs WHERE infinitive = 'abandonar'
-              AND mood_english = 'Indicative' AND tense_english = 'Present';""")
-    dbVerb = c.fetchone()[0]
+    c.execute(f"""SELECT DISTINCT infinitive FROM verbs;""")
+    dbVerb = c.fetchall()
+    dbVerb = [item[0] for item in dbVerb]
     # print(dbVerb)
-    abandonar = Verb.create("abandonar", "to abandon")
-    myVerb = abandonar.conjugate("present", "yo")
-    print(myVerb == dbVerb)
+    for word in dbVerb:
+        print(word)
+        c.execute(f"""SELECT form_1s, form_2s, form_3s, form_1p, form_3p FROM verbs WHERE infinitive = '{word}'
+                  AND mood_english = 'Indicative' AND tense_english = 'Present';""")
+        db_conjugations = c.fetchone()
+        my_conjugations = Verb.create(f'{word}', "n/a")
+        print(my_conjugations.conjugate('present', 'yo') == db_conjugations[0])
+        print(my_conjugations.conjugate('present', 'tu') == db_conjugations[1])
+        print(my_conjugations.conjugate('present', 'usted') == db_conjugations[2])
+        print(my_conjugations.conjugate('present', 'nosotros') == db_conjugations[3])
+        print(my_conjugations.conjugate('present', 'ustedes') == db_conjugations[4])
+    # abandonar = Verb.create("abandonar", "to abandon")
+    # myVerb = abandonar.conjugate("present", "yo")
+    # print(myVerb == dbVerb)
+    
 
 
 if __name__ == "__main__":

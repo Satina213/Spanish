@@ -9,12 +9,15 @@ class Verb:
 
     @classmethod
     def create(cls, word, translation, regular=True):
-        word = word.lower().strip()
+        word = word.lower().strip().replace("(", "").replace(")", "")
+        # THIS IS SUPPOSED TO REMOVE THE SE FROM REFLEXIVE VERBS AND SHOULD BE DEALTH WITH IN THE FUTURE
+        if word.endswith("se"):
+            word = word[:-2]
         if word.endswith("ar"):
             return ArVerb(word, translation, regular)
         elif word.endswith("er"):
             return ErVerb(word, translation, regular)
-        elif word.endswith("ir"):
+        elif word.endswith("ir") or word.endswith("ír"):
             return IrVerb(word, translation, regular)
         else:
             raise ValueError(f"Unkown verb ending for {word}")

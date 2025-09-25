@@ -79,13 +79,15 @@ def main():
     from verbs import Verb
     conn = sqlite3.connect("spanishverbs.db")
     c = conn.cursor()
-    c.execute(f"""SELECT form_1s FROM verbs WHERE infinitive = 'abandonar'
-              AND mood_english = 'Indicative' AND tense_english = 'Present';""")
-    dbVerb = c.fetchone()[0]
-    # print(dbVerb)
-    abandonar = Verb.create("abandonar", "to abandon")
-    myVerb = abandonar.conjugate("present", "yo")
-    print(myVerb == dbVerb)
+    c.execute(f"""SELECT DISTINCT infinitive FROM verbs;""")
+    dbVerb = c.fetchall()
+    for item in dbVerb:
+        item = item[0]
+    
+    print(dbVerb)
+    # abandonar = Verb.create("abandonar", "to abandon")
+    # myVerb = abandonar.conjugate("present", "yo")
+    # print(myVerb == dbVerb)
 
 
 if __name__ == "__main__":

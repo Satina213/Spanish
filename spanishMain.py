@@ -81,10 +81,26 @@ def main():
     c = conn.cursor()
     c.execute(f"""SELECT DISTINCT infinitive FROM verbs;""")
     dbVerb = c.fetchall()
-    for item in dbVerb:
-        item = item[0]
+    dbVerb = [item[0] for item in dbVerb]
+    c.execute("""CREATE TABLE IF NOT EXISTS 'present_tense'(
+              infinitive TEXT,
+              form_1s TEXT,
+              form_2s TEXT,
+              form_3s TEXT,
+              form_1p TEXT,
+              form_3p TEXT,
+              id INTEGER PRIMARY KEY AUTOINCREMENT);""")
+    # print(dbVerb)
+    for verb in dbVerb:
+        c.execute("""SELECT form_1s, form_2s, form_3s, form_1p, form_3p
+                  FROM verbs WHERE mood_english = 'Indicative' AND
+                  infinitive = ?;""", (verb,))
+        form_1s, form_2s, form_3s, form_1p, form_3p = c.fetchone()
+        c.execute("""INSERT INTO present_tense (infinitive, form_1s, form_2s, form_3s, form_1p, form_3p)
+                  VALUES (?, ?, ?, ?, ?, ?)""",(verb, form_1s, form_2s, form_3s, form_1p, form_3p))
+    conn.commit()
+    conn.close()
     
-    print(dbVerb)
     # abandonar = Verb.create("abandonar", "to abandon")
     # myVerb = abandonar.conjugate("present", "yo")
     # print(myVerb == dbVerb)

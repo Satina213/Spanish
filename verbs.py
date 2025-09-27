@@ -10,7 +10,7 @@ class Verb:
     @classmethod
     def create(cls, word, translation, regular=True):
         word = word.lower().strip().replace("(", "").replace(")", "")
-        # THIS IS SUPPOSED TO REMOVE THE SE FROM REFLEXIVE VERBS AND SHOULD BE DEALTH WITH IN THE FUTURE
+        # THIS IS SUPPOSED TO REMOVE THE SE FROM REFLEXIVE VERBS AND SHOULD BE DEALT WITH IN THE FUTURE
         if word.endswith("se"):
             word = word[:-2]
         if word.endswith("ar"):

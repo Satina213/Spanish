@@ -78,8 +78,18 @@ def main():
     from verbs import Verb
     conn = sqlite3.connect("spanishverbs.db")
     c = conn.cursor()
-    conn.close()
-
+    c.execute(f"""SELECT * FROM present_tense;""")
+    #   id, infinitive, form_1s, form_2s, form_3s, form_1p, form_3p 
+    #   0   1           2        3        4        5        6   
+    dbverbs = c.fetchall()
+    failedVerbs = []
+    for row in dbverbs:
+        temporaryVerb = row[1]
+        temporaryVerb = Verb.create(temporaryVerb, "n/a")
+        if not (temporaryVerb.conjugate("present", "yo") == row[2] and temporaryVerb.conjugate("present", "tu") == row[3] and temporaryVerb.conjugate("present", "usted") == row[4] and temporaryVerb.conjugate("present", "nosotros") == row[5] and temporaryVerb.conjugate("present", "ustedes") == row[6]):
+            failedVerbs.append(row[1])
+    conn.close()    
+    print(failedVerbs)
 
 
 if __name__ == "__main__":
